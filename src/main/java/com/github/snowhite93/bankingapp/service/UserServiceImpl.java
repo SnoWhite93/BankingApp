@@ -23,21 +23,36 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByUserName(String userName) throws BankingAppException {
-        User user = null;
+
         if (userName == null) {
             throw new BankingAppUserException("Missing username");
         }
-        user = userDAO.findUserByUserName(userName);
+        User user = userDAO.findUserByUserName(userName);
         return user;
     }
 
     @Override
     public void createUser(User user) throws BankingAppException {
+        checkValidUser(user);
+        userDAO.createUser(user);
+    }
+
+    private void checkValidUser(User user) {
         if (user == null) {
             throw new BankingAppUserException("Missing user");
+        } else if (user.getPassword() == null) {
+            throw new BankingAppUserException("Missing password");
+        } else if (user.getUserName() == null) {
+            throw new BankingAppUserException("Missing username");
+        } else if (user.getDob() == null) {
+            throw new BankingAppUserException("Missing date of birth");
+        } else if (user.getEmploymentStatus() == null) {
+            throw new BankingAppUserException("Missing employment status");
+        } else if (user.getFirstName() == null) {
+            throw new BankingAppUserException("Missing first name");
+        } else if (user.getLastName() == null) {
+            throw new BankingAppUserException("Missing last name");
         }
-        userDAO.createUser(user);
-
     }
 
 }
