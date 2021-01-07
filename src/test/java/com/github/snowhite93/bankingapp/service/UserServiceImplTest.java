@@ -4,26 +4,27 @@ import com.github.snowhite93.bankingapp.dao.UserDAO;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppSystemException;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppUserException;
 import com.github.snowhite93.bankingapp.model.User;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Date;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {
 
-    private static UserService service;
-    private static UserDAO mock = mock(UserDAO.class);
+    @Mock
+    private UserDAO userDao;
 
-    @BeforeAll
-    public static void prepareTest() {
-        mock = mock(UserDAO.class);
-        service = new UserServiceImpl(mock);
-    }
+    @InjectMocks
+    private UserServiceImpl service;
 
     private static User createValidUser() {
         Date dob = Date.valueOf(LocalDate.now().minusYears(20));
@@ -40,10 +41,6 @@ class UserServiceImplTest {
         return user;
     }
 
-    @BeforeEach
-    public void resetMocks() {
-        reset(mock);
-    }
 
     @Test
     public void testFindUserByUserName() {
@@ -70,7 +67,7 @@ class UserServiceImplTest {
     public void testCreateUserWhenDatabaseError() {
         User user = createValidUser();
 
-        when(mock.createUser(user))
+        when(userDao.createUser(user))
                 .thenThrow(new BankingAppSystemException("Database exception"));
 
         assertThrows(BankingAppSystemException.class, () -> {
@@ -82,7 +79,7 @@ class UserServiceImplTest {
     public void testCreateUserWhenDaoReturnsTrue() {
         User user = createValidUser();
 
-        when(mock.createUser(user))
+        when(userDao.createUser(user))
                 .thenReturn(true);
 
         service.createUser(user);
@@ -92,7 +89,7 @@ class UserServiceImplTest {
     public void testCreateUserWhenDaoReturnsFalse() {
         User user = createValidUser();
 
-        when(mock.createUser(user))
+        when(userDao.createUser(user))
                 .thenReturn(false);
 
         assertThrows(BankingAppSystemException.class, () -> {

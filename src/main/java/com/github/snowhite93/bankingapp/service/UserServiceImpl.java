@@ -11,14 +11,6 @@ public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO = new UserDAOImpl();
 
-    public UserServiceImpl() {
-        this(new UserDAOImpl());
-    }
-
-    public UserServiceImpl(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
-
     @Override
     public User findUserByUserNameAndPassword(String userName, String password) throws BankingAppException {
         User user = null;
