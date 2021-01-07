@@ -8,7 +8,15 @@ import com.github.snowhite93.bankingapp.model.User;
 
 public class UserServiceImpl implements UserService {
 
-    private UserDAO userDAO = new UserDAOImpl();
+    private UserDAO userDAO;
+
+    public UserServiceImpl() {
+        this(new UserDAOImpl());
+    }
+
+    public UserServiceImpl(UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
 
     @Override
     public User findUserByUserNameAndPassword(String userName, String password) throws BankingAppException {
