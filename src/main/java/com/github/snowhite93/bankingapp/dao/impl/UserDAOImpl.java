@@ -76,7 +76,7 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setDate(7, new java.sql.Date(user.getDob().getTime()));
 
             int affectedRows = preparedStatement.executeUpdate();
-            return affectedRows ==1;
+            return affectedRows == 1;
 
         } catch (SQLException e) {
             throw new BankingAppSystemException("Failed to create user, contact support", e);

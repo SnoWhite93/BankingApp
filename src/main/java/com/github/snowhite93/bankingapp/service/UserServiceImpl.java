@@ -3,12 +3,13 @@ package com.github.snowhite93.bankingapp.service;
 import com.github.snowhite93.bankingapp.dao.UserDAO;
 import com.github.snowhite93.bankingapp.dao.impl.UserDAOImpl;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppException;
+import com.github.snowhite93.bankingapp.exceptions.BankingAppSystemException;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppUserException;
 import com.github.snowhite93.bankingapp.model.User;
 
 public class UserServiceImpl implements UserService {
 
-    private UserDAO userDAO;
+    private UserDAO userDAO = new UserDAOImpl();
 
     public UserServiceImpl() {
         this(new UserDAOImpl());
@@ -42,7 +43,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(User user) throws BankingAppException {
         checkValidUser(user);
-        userDAO.createUser(user);
+        boolean userCreated = userDAO.createUser(user);
+        if (!userCreated) {
+            throw new BankingAppSystemException("Could not create user");
+        }
     }
 
     private void checkValidUser(User user) {
