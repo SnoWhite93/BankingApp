@@ -10,6 +10,6 @@ public interface UserDAO {
 
     public User findUserByUserName(String userName) throws BankingAppSystemException;
 
-    public void createUser(User user) throws BankingAppException;
+    public boolean createUser(User user) throws BankingAppException;
 
 }

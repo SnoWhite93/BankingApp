@@ -63,7 +63,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void createUser(User user) throws BankingAppException {
+    public boolean createUser(User user) throws BankingAppException {
         try (Connection connection = PostgresSqlConnection.getConnection()) {
             String sql = "INSERT INTO user(user_name, password, first_name, last_name, is_employee, employment_status, dob) VALUES (?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -75,7 +75,8 @@ public class UserDAOImpl implements UserDAO {
             preparedStatement.setString(6, user.getEmploymentStatus());
             preparedStatement.setDate(7, new java.sql.Date(user.getDob().getTime()));
 
-            preparedStatement.executeUpdate();
+            int affectedRows = preparedStatement.executeUpdate();
+            return affectedRows ==1;
 
         } catch (SQLException e) {
             throw new BankingAppSystemException("Failed to create user, contact support", e);
