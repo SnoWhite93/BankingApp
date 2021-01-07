@@ -73,4 +73,18 @@ public class AccountDAOImpl implements AccountDAO {
         return accountsForUserIdList;
     }
 
+    @Override
+    public boolean updateBalance(int accountId, double newBalance) throws BankingAppSystemException {
+        try (Connection connection = PostgresSqlConnection.getConnection()) {
+            String sql = "UPDATE account set balance = ? where account_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setDouble(1, newBalance);
+            preparedStatement.setInt(2, accountId);
+            int affectedRows = preparedStatement.executeUpdate();
+            return affectedRows == 1;
+        } catch (SQLException e) {
+            throw new BankingAppSystemException("Couldn't update balance", e);
+        }
+    }
+
 }
