@@ -13,7 +13,7 @@ public interface AccountRequestDAO {
 
     public boolean createRequest(int userId) throws BankingAppException;
 
-    public boolean rejectAccRequest(int requestId, String rejectionReaction) throws BankingAppException;
+    public boolean rejectAccRequest(int requestId, String rejectionReason) throws BankingAppException;
 
     public boolean acceptAccRequest(int requestId) throws BankingAppException;
 
