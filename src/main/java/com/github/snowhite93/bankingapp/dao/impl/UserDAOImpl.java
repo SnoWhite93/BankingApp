@@ -31,7 +31,7 @@ public class UserDAOImpl implements UserDAO {
     public User findUserByUserNameAndPassword(String userName, String password) throws BankingAppSystemException {
         User user = null;
         try (Connection connection = PostgresSqlConnection.getConnection()) {
-            String sql = "select user_id, user_name, first_name, last_name, is_employee, employment_status, dob from user where user_name=? and password =?";
+            String sql = "select user_id, user_name, first_name, last_name, is_employee, employment_status, dob from \"user\" where user_name=? and password =?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             preparedStatement.setString(2, password);
@@ -49,7 +49,7 @@ public class UserDAOImpl implements UserDAO {
     public User findUserByUserName(String userName) throws BankingAppSystemException {
         User user = null;
         try (Connection connection = PostgresSqlConnection.getConnection()) {
-            String sql = "select user_id, user_name, first_name, last_name, is_employee, employment_status, dob from user where user_name=?";
+            String sql = "select user_id, user_name, first_name, last_name, is_employee, employment_status, dob from \"user\" where user_name=?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, userName);
             ResultSet rs = preparedStatement.executeQuery();
@@ -65,7 +65,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean createUser(User user) throws BankingAppException {
         try (Connection connection = PostgresSqlConnection.getConnection()) {
-            String sql = "INSERT INTO user(user_name, password, first_name, last_name, is_employee, employment_status, dob) VALUES (?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO \"user\"(user_name, password, first_name, last_name, is_employee, employment_status, dob) VALUES (?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, user.getUserName());
             preparedStatement.setString(2, user.getPassword());

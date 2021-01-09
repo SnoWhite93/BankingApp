@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 
 public class ScreenLoggedOut implements Screen {
 
-    Logger log = Logger.getLogger(ScreenLoggedOut.class);
-    private Input input = new InputScanner();
+    private static final Logger log = Logger.getLogger(ScreenLoggedOut.class);
+    private Input input = InputScanner.getInstance();
 
     @Override
     public void showScreen() {
@@ -19,13 +19,15 @@ public class ScreenLoggedOut implements Screen {
 
             String option = input.readLine();
             switch (option) {
+                case "0":
+                    return; //exit app
                 case "1":
 
                     break;
                 case "2":
+                    new ScreenRegister()
+                            .showScreen();
                     break;
-                case "0":
-                    return;
                 default:
                     log.error("Invalid option: " + option);
                     break;
