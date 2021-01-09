@@ -19,6 +19,9 @@ public class UserServiceImpl implements UserService {
             throw new BankingAppUserException("Missing username/password");
         }
         user = userDAO.findUserByUserNameAndPassword(userName, password);
+        if (user == null) {
+            throw new BankingAppUserException("No user for this username/password combination.");
+        }
         return user;
     }
 
