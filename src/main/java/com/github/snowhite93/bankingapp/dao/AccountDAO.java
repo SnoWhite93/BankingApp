@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AccountDAO {
 
-    public boolean createAccount(int userId) throws BankingAppSystemException;
+    public boolean createAccount(int userId, double startingBalance) throws BankingAppSystemException;
     public Account findAccountByAccId(int accountId)throws BankingAppSystemException;
     public List<Account> getAllAccountsForUserId(int userId) throws BankingAppSystemException;
     public boolean updateBalance(int accountId, double newBalance) throws BankingAppSystemException;

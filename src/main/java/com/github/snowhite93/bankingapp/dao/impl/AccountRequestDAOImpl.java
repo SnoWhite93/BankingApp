@@ -6,10 +6,7 @@ import com.github.snowhite93.bankingapp.exceptions.BankingAppException;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppSystemException;
 import com.github.snowhite93.bankingapp.model.AccountRequest;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,13 +57,15 @@ public class AccountRequestDAOImpl implements AccountRequestDAO {
     }
 
     @Override
-    public boolean createRequest(int userId) throws BankingAppException {
+    public boolean createRequest(int userId, double startingBalance) throws BankingAppException {
 
         try (Connection connection = PostgresSqlConnection.getConnection()) {
-            String sql = "INSERT INTO account_request(user_id, request_status) VALUES (?,?)";
+            String sql = "INSERT INTO account_request(user_id, starting_balance, request_status, date_requested) VALUES (?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, userId);
-            preparedStatement.setString(2, "Pending");
+            preparedStatement.setDouble(2, startingBalance);
+            preparedStatement.setString(3, "Pending");
+            preparedStatement.setDate(4, new java.sql.Date(new java.util.Date().getTime()));
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows == 1;
 

@@ -37,4 +37,16 @@ public class Inputs {
         }
     }
 
+    public static double readDouble(Input input) {
+        while (true) {
+            String readLine = input.readLine();
+
+            try {
+                return Double.parseDouble(readLine);
+            }catch (NumberFormatException e) {
+                log.error("Invalid balance " + readLine);
+            }
+        }
+    }
+
 }

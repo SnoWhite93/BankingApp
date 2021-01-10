@@ -27,7 +27,7 @@ public class ScreenLogIn implements Screen {
         try {
             User user = userService.findUserByUserNameAndPassword(userName, password);
             log.info("Logged in to BankAholic as " + userName);
-            new ScreenLoggedIn()
+            new ScreenLoggedIn(user)
                     .showScreen();
         } catch (BankingAppException e) {
             log.error(e.getMessage(), e); //remove this when commiting cause it's asked

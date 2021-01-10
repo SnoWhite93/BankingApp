@@ -25,12 +25,12 @@ public class AccountDAOImpl implements AccountDAO {
     }
 
     @Override
-    public boolean createAccount(int userId) throws BankingAppSystemException {
+    public boolean createAccount(int userId, double startingBalance) throws BankingAppSystemException {
         try (Connection connection = PostgresSqlConnection.getConnection()) {
             String sql = "INSERT INTO account(user_id, balance, date_created) VALUES (?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, userId);
-            preparedStatement.setDouble(2, 0);
+            preparedStatement.setDouble(2, startingBalance);
             preparedStatement.setDate(3, new java.sql.Date(new Date().getTime()));
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows == 1;

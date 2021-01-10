@@ -12,11 +12,11 @@ public class AccountServiceImpl implements AccountService {
     private AccountDAO accountDAO = new AccountDAOImpl();
 
     @Override
-    public void createAccount(int userId) throws BankingAppSystemException {
+    public void createAccount(int userId, double startingBalance) throws BankingAppSystemException {
         if (userId == 0) {
             throw new BankingAppSystemException("Could not create account for user id " + userId);
         }
-        boolean accountCreated = accountDAO.createAccount(userId);
+        boolean accountCreated = accountDAO.createAccount(userId, startingBalance);
         if (!accountCreated) {
             throw new BankingAppSystemException("Could not create account");
         }

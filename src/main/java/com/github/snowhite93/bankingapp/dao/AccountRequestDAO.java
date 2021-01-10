@@ -9,12 +9,15 @@ public interface AccountRequestDAO {
 
     public List<AccountRequest> findUserRequests(int userId);
 
+    public AccountRequest findRequestById(int accountRequestId);
+
     public List<AccountRequest> findAllPendingAccReqs() throws BankingAppException;
 
-    public boolean createRequest(int userId) throws BankingAppException;
+    public boolean createRequest(int userId, double startingBalance) throws BankingAppException;
 
     public boolean rejectAccRequest(int requestId, String rejectionReason) throws BankingAppException;
 
     public boolean acceptAccRequest(int requestId) throws BankingAppException;
+
 
 }

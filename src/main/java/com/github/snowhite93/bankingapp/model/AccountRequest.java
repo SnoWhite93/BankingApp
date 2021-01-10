@@ -6,6 +6,7 @@ public class AccountRequest {
     private int userId;
     private String requestStatus;
     private String rejectionReason;
+    private double startingBalance;
 
     public AccountRequest() {
     }
@@ -24,6 +25,14 @@ public class AccountRequest {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public double getStartingBalance() {
+        return startingBalance;
+    }
+
+    public void setStartingBalance(double startingBalance) {
+        this.startingBalance = startingBalance;
     }
 
     public String getRequestStatus() {
@@ -49,6 +58,7 @@ public class AccountRequest {
                 ", userId=" + userId +
                 ", requestStatus='" + requestStatus + '\'' +
                 ", rejectionReason='" + rejectionReason + '\'' +
+                ", startingBalance=" + startingBalance +
                 '}';
     }
 

@@ -11,7 +11,7 @@ public interface AccountRequestService {
 
     public List<AccountRequest> findAllPendingAccReqs() throws BankingAppException;
 
-    public void createRequest(int userId) throws BankingAppException;
+    public void createRequest(int userId, double startingBalance) throws BankingAppException;
 
     public void rejectAccRequest(int requestId, String rejectionReaction) throws BankingAppException;
 

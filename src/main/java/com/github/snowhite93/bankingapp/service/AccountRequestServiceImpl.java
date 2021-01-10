@@ -1,8 +1,11 @@
 package com.github.snowhite93.bankingapp.service;
 
+import com.github.snowhite93.bankingapp.dao.AccountDAO;
 import com.github.snowhite93.bankingapp.dao.AccountRequestDAO;
+import com.github.snowhite93.bankingapp.dao.impl.AccountDAOImpl;
 import com.github.snowhite93.bankingapp.dao.impl.AccountRequestDAOImpl;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppException;
+import com.github.snowhite93.bankingapp.exceptions.BankingAppSystemException;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppUserException;
 import com.github.snowhite93.bankingapp.model.AccountRequest;
 
@@ -11,6 +14,7 @@ import java.util.List;
 public class AccountRequestServiceImpl implements AccountRequestService {
 
     private AccountRequestDAO accountRequestDAO = new AccountRequestDAOImpl();
+    private AccountDAO accountDAO = new AccountDAOImpl();
 
     @Override
     public List<AccountRequest> findUserRequests(int userId) {
@@ -28,13 +32,13 @@ public class AccountRequestServiceImpl implements AccountRequestService {
     }
 
     @Override
-    public void createRequest(int userId) throws BankingAppException {
-        if (userId == 0) {
-            throw new BankingAppException("Could not create request for user id " + userId);
+    public void createRequest(int userId, double startingBalance) throws BankingAppException {
+        if (startingBalance < 25) {
+            throw new BankingAppException("Could not create request for user id " + userId + " because starting balance was less than $25.");
         }
-        boolean requestCreated = accountRequestDAO.createRequest(userId);
+        boolean requestCreated = accountRequestDAO.createRequest(userId, startingBalance);
         if (!requestCreated) {
-            throw new BankingAppException("Could not create request");
+            throw new BankingAppException("Could not create request for user id " + userId);
         }
     }
 
@@ -53,6 +57,14 @@ public class AccountRequestServiceImpl implements AccountRequestService {
         if (!acceptedAccRequest) {
             throw new BankingAppException("Could not accept account request with request id " + requestId);
         }
+
+        AccountRequest request = accountRequestDAO.findRequestById(requestId);
+
+        boolean accountCreated = accountDAO.createAccount(request.getUserId(), request.getStartingBalance());
+        if (!accountCreated) {
+            throw new BankingAppSystemException("Could not create account");
+        }
+
     }
 
 }
