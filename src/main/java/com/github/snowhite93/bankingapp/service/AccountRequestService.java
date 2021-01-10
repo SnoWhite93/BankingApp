@@ -13,7 +13,7 @@ public interface AccountRequestService {
 
     public void createRequest(int userId, double startingBalance) throws BankingAppException;
 
-    public void rejectAccRequest(int requestId, String rejectionReaction) throws BankingAppException;
+    public void rejectAccRequest(int requestId, String rejectionReason) throws BankingAppException;
 
     public void acceptAccRequest(int requestId) throws BankingAppException;
 

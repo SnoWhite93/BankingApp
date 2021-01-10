@@ -32,8 +32,12 @@ public class ScreenPendingAccountRequests implements Screen {
             case "0":
                 return; //exit app
             case "1":
+                new ScreenApproveAccountRequest()
+                        .showScreen();
                 break;
             case "2":
+                new ScreenRejectAccountRequest()
+                        .showScreen();
                 break;
             default:
                 log.error("Invalid option: " + option);
