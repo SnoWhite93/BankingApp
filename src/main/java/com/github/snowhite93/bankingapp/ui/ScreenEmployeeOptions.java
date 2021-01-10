@@ -23,12 +23,11 @@ public class ScreenEmployeeOptions implements Screen {
                 case "0":
                     return; //exit app
                 case "1":
-                  new ScreenLogIn()
+                  new ScreenPendingAccountRequests()
                           .showScreen();
                     break;
                 case "2":
-                    new ScreenRegister()
-                            .showScreen();
+
                     break;
                 default:
                     log.error("Invalid option: " + option);

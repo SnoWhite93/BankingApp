@@ -4,6 +4,7 @@ import com.github.snowhite93.bankingapp.dao.AccountRequestDAO;
 import com.github.snowhite93.bankingapp.dbutil.PostgresSqlConnection;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppException;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppSystemException;
+import com.github.snowhite93.bankingapp.model.Account;
 import com.github.snowhite93.bankingapp.model.AccountRequest;
 
 import java.sql.*;
@@ -37,6 +38,23 @@ public class AccountRequestDAOImpl implements AccountRequestDAO {
             throw new BankingAppSystemException("Failes to retrieve account request for user with user id " + userId, e);
         }
         return accountRequestsByUserIdList;
+    }
+
+    @Override
+    public AccountRequest findRequestById(int accountRequestId) {
+        AccountRequest accountRequest = null;
+        try (Connection connection = PostgresSqlConnection.getConnection()) {
+            String sql = "SELECT * from account_request where request_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, accountRequestId);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                accountRequest = extractAccReq(rs);
+            }
+        } catch (SQLException e) {
+            throw new BankingAppSystemException("Couldn't find request with id  + " + accountRequestId, e);
+        }
+        return accountRequest;
     }
 
     @Override
