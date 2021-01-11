@@ -28,19 +28,53 @@ public class TransactionsServiceImpl implements TransactionsService {
     }
 
     @Override
-    public void rejectTransaction(int userId) throws BankingAppException {
+    public List<Transactions> findIncomingPendingTransactions(int accountId) throws BankingAppSystemException {
+        Account account = accountDAO.findAccountByAccId(accountId);
+        if (account == null) {
+            throw new BankingAppUserException("No such account: " + accountId);
+        }
+        return transactionsDAO.findIncomingPendingTransactions(accountId);
+    }
+
+    @Override
+    public void rejectTransaction(int userId, int transactionId) throws BankingAppException {
+        Transactions transaction = transactionsDAO.findTransactionById(transactionId);
+        if (transaction == null) {
+            throw new BankingAppUserException("No such transaction: " + transactionId);
+        } else if (!"Pending".equals(transaction.getStatus())) {
+            throw new BankingAppUserException("Transaction is not pending");
+        }
+        Account toAccount = accountDAO.findAccountByAccId(transaction.getToAccountId());
+        if (toAccount.getUserId() != userId) {
+            throw new BankingAppUserException("Can only reject your own incoming transactions");
+        }
         boolean rejectedTransaction = transactionsDAO.cancelTransaction(userId);
         if (!rejectedTransaction) {
             throw new BankingAppSystemException("Could not reject transaction made by user id " + userId);
         }
-
     }
 
     @Override
-    public void approveTransaction(int userId) throws BankingAppException {
-        boolean approvedTransaction = transactionsDAO.acceptTransaction(userId);
+    public void approveTransaction(int userId, int transactionId) throws BankingAppException {
+        Transactions transaction = transactionsDAO.findTransactionById(transactionId);
+        if (transaction == null) {
+            throw new BankingAppUserException("No such transaction: " + transactionId);
+        } else if (!"Pending".equals(transaction.getStatus())) {
+            throw new BankingAppUserException("Transaction is not pending");
+        }
+        Account toAccount = accountDAO.findAccountByAccId(transaction.getToAccountId());
+        if (toAccount.getUserId() != userId) {
+            throw new BankingAppUserException("Can only accept your own incoming transactions");
+        }
+        boolean approvedTransaction = transactionsDAO.acceptTransaction(transactionId);
         if (!approvedTransaction) {
-            throw new BankingAppSystemException("Could not approve transaction made user id " + userId);
+            throw new BankingAppSystemException("Could not approve transaction made by user id " + userId);
+        }
+
+        double newBalance = toAccount.getBalance() - transaction.getAmount();
+        boolean newBalanceUpdated = accountDAO.updateBalance(toAccount.getAccountId(), newBalance);
+        if (!newBalanceUpdated) {
+            throw new BankingAppSystemException("Could not update balance");
         }
     }
 
@@ -70,4 +104,12 @@ public class TransactionsServiceImpl implements TransactionsService {
             throw new BankingAppSystemException("Could not create transaction");
         }
     }
+
+    @Override
+    public List<Transactions> findAllTransactions() throws BankingAppSystemException {
+        List<Transactions> allTransactionsList = null;
+        allTransactionsList = transactionsDAO.allTransactions();
+        return allTransactionsList;
+    }
+
 }

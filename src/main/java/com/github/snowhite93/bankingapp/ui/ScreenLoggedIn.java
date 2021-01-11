@@ -27,13 +27,16 @@ public class ScreenLoggedIn implements Screen {
             log.info("4) Make money transfer");
             log.info("5) Accept money transfer ");
             log.info("6) View my transactions from account");
+            log.info("7) View my account balances");
             if (user.isEmployee()) {
-                log.info("7) Employee options");
+                log.info("8) Employee options");
             }
             log.info("0) Log out ");
 
             String option = input.readLine();
             switch (option) {
+                case "0":
+                    return;
                 case "1":
                     new ScreenApplyForAccStartingBalance(user)
                             .showScreen();
@@ -43,22 +46,26 @@ public class ScreenLoggedIn implements Screen {
                             .showScreen();
                     break;
                 case "3":
-                   new ScreenMakeADeposit(user)
-                           .showScreen();
+                    new ScreenMakeADeposit(user)
+                            .showScreen();
                     break;
                 case "4":
                     new ScreenMakeAMoneyTransfer(user)
                             .showScreen();
                     break;
                 case "5":
-                    log.info("Accept money transfer");
+                    new ScreenAcceptMoneyTransfer(user)
+                            .showScreen();
                     break;
                 case "6":
-                    log.info("View my transactions");
+                    new ScreenViewAllMyTransactions(user)
+                            .showScreen();
                     break;
-                case "0":
-                    return; //exit app
                 case "7":
+                    new ScreenViewAccountBalances(user)
+                            .showScreen();
+                    break;
+                case "8":
                     if (user.isEmployee()) {
                         new ScreenEmployeeOptions()
                                 .showScreen();

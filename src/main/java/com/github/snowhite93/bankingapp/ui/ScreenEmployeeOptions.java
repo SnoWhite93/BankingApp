@@ -31,6 +31,8 @@ public class ScreenEmployeeOptions implements Screen {
                             .showScreen();
                     break;
                 case "3":
+                    new ScreenViewAllTransactions()
+                            .showScreen();
                     break;
                 default:
                     log.error("Invalid option: " + option);

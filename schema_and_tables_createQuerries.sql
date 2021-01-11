@@ -40,4 +40,10 @@ CREATE TABLE "bankApp".account_request (
 	request_status text NOT NULL,
 	rejection_reason text,
 	date_requested date NOT NULL
+	starting_balance numeric(10,2) NOT NULL
 );
+
+ ALTER SEQUENCE user_user_id_seq RESTART WITH 111111;
+ ALTER SEQUENCE account_account_id_seq RESTART WITH 21000;
+ ALTER SEQUENCE account_request_request_id_seq RESTART WITH 550000;
+ ALTER SEQUENCE transactions_transaction_id_seq RESTART WITH 6660000;
