@@ -7,6 +7,8 @@ import com.github.snowhite93.bankingapp.exceptions.BankingAppSystemException;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppUserException;
 import com.github.snowhite93.bankingapp.model.User;
 
+import java.util.List;
+
 public class UserServiceImpl implements UserService {
 
     private UserDAO userDAO = new UserDAOImpl();
@@ -43,6 +45,14 @@ public class UserServiceImpl implements UserService {
             throw new BankingAppSystemException("Could not create user");
         }
     }
+
+    @Override
+    public List<User> getAllUsersList() throws BankingAppSystemException {
+        List<User> allUsersList = null;
+        allUsersList= userDAO.getAllUsers();
+        return allUsersList;
+    }
+
 
     private void checkValidUser(User user) {
         if (user == null) {

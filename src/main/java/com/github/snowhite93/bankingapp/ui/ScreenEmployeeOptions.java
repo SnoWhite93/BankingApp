@@ -27,7 +27,10 @@ public class ScreenEmployeeOptions implements Screen {
                           .showScreen();
                     break;
                 case "2":
-
+                    new ScreenViewCustomerBankAcc()
+                            .showScreen();
+                    break;
+                case "3":
                     break;
                 default:
                     log.error("Invalid option: " + option);

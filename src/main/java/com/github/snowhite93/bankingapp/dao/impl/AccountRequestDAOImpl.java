@@ -17,6 +17,7 @@ public class AccountRequestDAOImpl implements AccountRequestDAO {
         AccountRequest accountRequest = new AccountRequest();
         accountRequest.setRequestId(rs.getInt("request_id"));
         accountRequest.setUserId(rs.getInt("user_id"));
+        accountRequest.setStartingBalance(rs.getDouble("starting_balance"));
         accountRequest.setRequestStatus(rs.getString("request_status"));
         accountRequest.setRejectionReason(rs.getString("rejection_reason"));
         return accountRequest;

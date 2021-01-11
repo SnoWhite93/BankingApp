@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -83,6 +85,23 @@ public class UserDAOImpl implements UserDAO {
 
         }
 
+    }
+
+    @Override
+    public List<User> getAllUsers() throws BankingAppSystemException {
+        List<User> allUsersList = new ArrayList<>();
+        try (Connection connection = PostgresSqlConnection.getConnection()) {
+            String sql = "select * from  \"user\"";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                allUsersList.add(extractUser(rs));
+            }
+
+        } catch (SQLException e) {
+            throw new BankingAppSystemException("Failes to retrieve users", e);
+        }
+        return allUsersList;
     }
 
 }
