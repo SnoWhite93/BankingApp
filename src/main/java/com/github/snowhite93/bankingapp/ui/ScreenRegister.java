@@ -44,7 +44,7 @@ public class ScreenRegister implements Screen {
             userService.createUser(user);
             log.info("User " + user.getUserName() + " created!");
         } catch (BankingAppException e) {
-            log.error(e.getMessage(), e); //remove this when commiting cause it's asked
+            log.error(e.getMessage());
         }
     }
 

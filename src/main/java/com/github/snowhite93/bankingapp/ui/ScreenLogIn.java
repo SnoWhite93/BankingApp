@@ -30,7 +30,7 @@ public class ScreenLogIn implements Screen {
             new ScreenLoggedIn(user)
                     .showScreen();
         } catch (BankingAppException e) {
-            log.error(e.getMessage(), e); //remove this when commiting cause it's asked
+            log.error(e.getMessage());
         }
     }
 

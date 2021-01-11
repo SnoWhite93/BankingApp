@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface TransactionsService {
     public List<Transactions> findAllTransactionsForAccId(int accountId) throws BankingAppSystemException;
-    public void rejectTransaction(int userId) throws BankingAppException;
-    public void approveTransaction(int userId) throws BankingAppException;
-    public void createTransaction(int fromAccId, int toAccId, double amount) throws BankingAppException;
+    public void rejectTransaction(int transactionId) throws BankingAppException;
+    public void approveTransaction(int transactionId) throws BankingAppException;
+    public void createTransaction(int userId, int fromAccId, int toAccId, double amount) throws BankingAppException;
 }

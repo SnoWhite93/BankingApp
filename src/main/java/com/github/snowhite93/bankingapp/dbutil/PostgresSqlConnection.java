@@ -31,7 +31,7 @@ public class PostgresSqlConnection {
         try {
             connection = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
-            log.error("Failed to connect to database", e);
+            log.error("Failed to connect to database");
             throw new BankingAppSystemException("System failed, contact the admin", e);
         }
         return connection;

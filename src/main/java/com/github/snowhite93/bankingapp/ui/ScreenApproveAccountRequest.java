@@ -25,7 +25,7 @@ public class ScreenApproveAccountRequest implements Screen {
             accountRequestService.acceptAccRequest(accountRequestId);
             log.info("Account request id " + accountRequestId + " approved!");
         } catch (BankingAppUserException e) {
-            log.error(e.getMessage(), e);
+            log.error(e.getMessage());
         }
     }
 

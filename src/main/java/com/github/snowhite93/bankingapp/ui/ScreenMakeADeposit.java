@@ -15,16 +15,16 @@ import java.util.List;
 import static com.github.snowhite93.bankingapp.ui.Inputs.readDouble;
 import static com.github.snowhite93.bankingapp.ui.Inputs.readInt;
 
-public class ScreenMakeAWithdrawl implements Screen {
+public class ScreenMakeADeposit implements Screen {
 
-    private static final Logger log = Logger.getLogger(ScreenMakeAWithdrawl.class);
+    private static final Logger log = Logger.getLogger(ScreenMakeADeposit.class);
     private final User user;
 
     private Input input = InputScanner.getInstance();
     private UserService userService = new UserServiceImpl();
     private AccountService accountService = new AccountServiceImpl();
 
-    public ScreenMakeAWithdrawl(User user) {
+    public ScreenMakeADeposit(User user) {
         this.user = user;
     }
 
@@ -40,11 +40,11 @@ public class ScreenMakeAWithdrawl implements Screen {
         Account account = getAccount(accountsForUser);
         if (account != null) {
 
-            log.info("Enter amount to withdraw: ");
+            log.info("Enter amount to deposit: ");
             double amount = readDouble(input);
             try {
-                accountService.withdraw(user.getUserId(), account.getAccountId(), amount);
-                log.info("Successful withdraw!");
+                accountService.deposit(user.getUserId(), account.getAccountId(), amount);
+                log.info("Successful deposit!");
             } catch (BankingAppException e) {
                 log.error(e.getMessage());
             }

@@ -39,13 +39,16 @@ public class ScreenLoggedIn implements Screen {
                             .showScreen();
                     break;
                 case "2":
-                    log.info("Make a withdrawl");
+                    new ScreenMakeAWithdrawl(user)
+                            .showScreen();
                     break;
                 case "3":
-                    log.info("Deposit some money");
+                   new ScreenMakeADeposit(user)
+                           .showScreen();
                     break;
                 case "4":
-                    log.info("Make a money transfer");
+                    new ScreenMakeAMoneyTransfer(user)
+                            .showScreen();
                     break;
                 case "5":
                     log.info("Accept money transfer");

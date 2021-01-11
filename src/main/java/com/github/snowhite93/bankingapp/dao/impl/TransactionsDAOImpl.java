@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TransactionsDAOImpl implements TransactionsDAO {
@@ -76,12 +77,13 @@ public class TransactionsDAOImpl implements TransactionsDAO {
     @Override
     public boolean createTransaction(int fromAccId, int toAccId, double amount) throws BankingAppSystemException {
         try (Connection connection = PostgresSqlConnection.getConnection()) {
-            String sql = "INSERT INTO transactions(from_account_id, to_account_id, amount, status) VALUES (?,?,?,?)";
+            String sql = "INSERT INTO transactions(from_account_id, to_account_id, amount, status, transfer_date) VALUES (?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, fromAccId);
             preparedStatement.setInt(2, toAccId);
             preparedStatement.setDouble(3, amount);
-            preparedStatement.setNString(4, "status");
+            preparedStatement.setString(4, "Pending");
+            preparedStatement.setDate(5, new java.sql.Date(new Date().getTime()));
             int affectedRows = preparedStatement.executeUpdate();
             return affectedRows == 1;
 

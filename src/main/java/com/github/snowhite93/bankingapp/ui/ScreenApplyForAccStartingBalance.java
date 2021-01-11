@@ -35,7 +35,7 @@ public class ScreenApplyForAccStartingBalance implements Screen {
             accountRequestService.createRequest(user.getUserId(), startingBalance);
             log.info("Account request for user id " + user.getUserId() + " created!");
         } catch (BankingAppUserException e) {
-            log.error(e.getMessage(), e);
+            log.error(e.getMessage());
         }
     }
 

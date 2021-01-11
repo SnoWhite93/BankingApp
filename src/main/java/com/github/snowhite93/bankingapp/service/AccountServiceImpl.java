@@ -3,6 +3,7 @@ package com.github.snowhite93.bankingapp.service;
 import com.github.snowhite93.bankingapp.dao.AccountDAO;
 import com.github.snowhite93.bankingapp.dao.impl.AccountDAOImpl;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppSystemException;
+import com.github.snowhite93.bankingapp.exceptions.BankingAppUserException;
 import com.github.snowhite93.bankingapp.model.Account;
 
 import java.util.List;
@@ -51,6 +52,35 @@ public class AccountServiceImpl implements AccountService {
         if (!updateBalance) {
             throw new BankingAppSystemException("Could not update balance");
         }
+    }
+
+    @Override
+    public void deposit(int userId, int accountId, double balanceToDeposit) throws BankingAppSystemException {
+        Account account = accountDAO.findAccountByAccId(accountId);
+        if (account == null) {
+            throw new BankingAppUserException("No such account: " + accountId);
+        } else if (account.getUserId() != userId) {
+            throw new BankingAppUserException("Cannot deposit into someone else's account, use transaction instead.");
+        }
+
+        double newBalance = account.getBalance() + balanceToDeposit;
+        updateBalance(accountId, newBalance);
+    }
+
+    @Override
+    public void withdraw(int userId, int accountId, double balanceToWithdraw) throws BankingAppSystemException {
+        Account account = accountDAO.findAccountByAccId(accountId);
+        if (account == null) {
+            throw new BankingAppUserException("No such account: " + accountId);
+        } else if (account.getUserId() != userId) {
+            throw new BankingAppUserException("Cannot withdraw from someone else's account, use transaction instead.");
+        }
+
+        double newBalance = account.getBalance() - balanceToWithdraw;
+        if (balanceToWithdraw > account.getBalance()) {
+            throw new BankingAppSystemException("Cannot withdraw more than current balance");
+        }
+        updateBalance(accountId, newBalance);
     }
 
 }
