@@ -34,11 +34,11 @@ public class AccountRequestServiceImpl implements AccountRequestService {
     @Override
     public void createRequest(int userId, double startingBalance) throws BankingAppException {
         if (startingBalance < 25) {
-            throw new BankingAppException("Could not create request for user id " + userId + " because starting balance was less than $25.");
+            throw new BankingAppUserException("Could not create request for user id " + userId + " because starting balance was less than $25.");
         }
         boolean requestCreated = accountRequestDAO.createRequest(userId, startingBalance);
         if (!requestCreated) {
-            throw new BankingAppException("Could not create request for user id " + userId);
+            throw new BankingAppSystemException("Could not create request for user id " + userId);
         }
     }
 

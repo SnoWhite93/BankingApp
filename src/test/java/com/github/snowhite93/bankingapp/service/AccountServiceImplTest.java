@@ -76,18 +76,22 @@ public class AccountServiceImplTest {
 
     @Test
     public void withdrawSuccess() {
+        // (step 0) setup -- preparation of objects to be used in test
         Account account = new Account();
         account.setUserId(222256);
         account.setBalance(208.54);
 
+        // (step 1) given -- prepare mocks
         when(accountDAO.findAccountByAccId(111466))
                 .thenReturn(account);
 
         when(accountDAO.updateBalance(111466, 144.41))
                 .thenReturn(true);
 
+        // (step 2) when -- performing action
         service.withdraw(222256, 111466, 64.13);
 
+        // (step 3) then -- verify action
         verify(accountDAO, times(1))
                 .updateBalance(111466, 144.41);
     }
