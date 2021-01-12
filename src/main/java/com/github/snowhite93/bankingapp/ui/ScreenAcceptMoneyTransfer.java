@@ -1,7 +1,6 @@
 package com.github.snowhite93.bankingapp.ui;
 
 import com.github.snowhite93.bankingapp.exceptions.BankingAppException;
-import com.github.snowhite93.bankingapp.exceptions.BankingAppUserException;
 import com.github.snowhite93.bankingapp.model.Account;
 import com.github.snowhite93.bankingapp.model.Transactions;
 import com.github.snowhite93.bankingapp.model.User;
@@ -63,37 +62,4 @@ public class ScreenAcceptMoneyTransfer implements Screen {
         }
         return transactions;
     }
-
-    private Account getFromAccount(List<Account> accountsForUser) {
-        if (accountsForUser.size() == 0) {
-            log.info("There are no accounts for this user name, you have to register for a account.");
-            return null;
-        }
-
-        if (accountsForUser.size() == 1) {
-            return accountsForUser.get(0);
-        }
-
-        log.info("Please enter the account id for the account that you want to transfer from: ");
-        int accountId = readInt(input);
-        try {
-            return accountService.findAccountByAccID(accountId);
-        } catch (BankingAppUserException e) {
-            log.error(e.getMessage());
-            return null;
-        }
-    }
-
-    private Account getToAccount() {
-        log.info("Please enter the account number where to transfer money: ");
-        int accountId = readInt(input);
-        try {
-            return accountService.findAccountByAccID(accountId);
-        } catch (BankingAppUserException e) {
-            log.error(e.getMessage());
-            return null;
-        }
-    }
-
-
 }

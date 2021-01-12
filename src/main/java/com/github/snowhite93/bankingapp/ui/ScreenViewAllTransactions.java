@@ -3,19 +3,17 @@ package com.github.snowhite93.bankingapp.ui;
 import com.github.snowhite93.bankingapp.model.Account;
 import com.github.snowhite93.bankingapp.model.Transactions;
 import com.github.snowhite93.bankingapp.model.User;
-import com.github.snowhite93.bankingapp.service.AccountService;
-import com.github.snowhite93.bankingapp.service.AccountServiceImpl;
-import com.github.snowhite93.bankingapp.service.TransactionsService;
-import com.github.snowhite93.bankingapp.service.TransactionsServiceImpl;
+import com.github.snowhite93.bankingapp.service.*;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ScreenViewAllTransactions implements Screen {
 
     private static final Logger log = Logger.getLogger(ScreenViewAllTransactions.class);
     private TransactionsService transactionsService = new TransactionsServiceImpl();
+    private UserService userService = new UserServiceImpl();
+    private AccountService accountService = new AccountServiceImpl();
 
 
     @Override
@@ -29,18 +27,21 @@ public class ScreenViewAllTransactions implements Screen {
 
         log.info("Showing all transactions for every user: ");
         for (Transactions transaction : allTransactionsList) {
-            log.info("Transaction " + transaction.getTransactionId() + " with an amount of $" + transaction.getAmount() + " status is " + transaction.getStatus());
+            Account fromAccount = accountService.findAccountByAccID(transaction.getFromAccountId());
+            Account toAccount = accountService.findAccountByAccID(transaction.getToAccountId());
+            User fromUser = userService.findUserByUserId(fromAccount.getUserId());
+            User toUser = userService.findUserByUserId(toAccount.getUserId());
+
+            log.info("Transaction " + transaction.getTransactionId()
+                    + " from "
+                    + fromUser.getFirstName() + " " + fromUser.getLastName()
+                    + " to "
+                    + toUser.getFirstName() + " " + toUser.getLastName()
+                    + " with an amount of $" + transaction.getAmount()
+                    + " status is " + transaction.getStatus());
+
         }
 
-    }
-
-    private List<Transactions> getPendingTransactions(List<Account> accountsForUser) {
-        List<Transactions> transactions = new ArrayList<>();
-        for (Account account : accountsForUser) {
-            List<Transactions> accountTransactions = transactionsService.findAllTransactionsForAccId(account.getAccountId());
-            transactions.addAll(accountTransactions);
-        }
-        return transactions;
     }
 
 }

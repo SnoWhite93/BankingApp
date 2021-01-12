@@ -40,7 +40,7 @@ public class ScreenViewCustomerBankAcc implements Screen {
 
         List<Account> accountList = accountService.retrieveAllAccountsForUserId(userByUserName.getUserId());
         for (Account account : accountList) {
-            log.info("Account ID: " + account.getAccountId() + " - " + "Balance: " + account.getBalance());
+            log.info("Account ID: " + account.getAccountId() + " - " + "Balance: $" + account.getBalance());
         }
     }
 }

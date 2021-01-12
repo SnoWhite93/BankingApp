@@ -4,7 +4,10 @@ import com.github.snowhite93.bankingapp.exceptions.BankingAppException;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppUserException;
 import com.github.snowhite93.bankingapp.model.Account;
 import com.github.snowhite93.bankingapp.model.User;
-import com.github.snowhite93.bankingapp.service.*;
+import com.github.snowhite93.bankingapp.service.AccountService;
+import com.github.snowhite93.bankingapp.service.AccountServiceImpl;
+import com.github.snowhite93.bankingapp.service.TransactionsService;
+import com.github.snowhite93.bankingapp.service.TransactionsServiceImpl;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -18,7 +21,6 @@ public class ScreenMakeAMoneyTransfer implements Screen {
     private final User user;
 
     private Input input = InputScanner.getInstance();
-    private UserService userService = new UserServiceImpl();
     private AccountService accountService = new AccountServiceImpl();
     private TransactionsService transactionsService = new TransactionsServiceImpl();
 

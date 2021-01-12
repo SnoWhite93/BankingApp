@@ -6,8 +6,6 @@ import com.github.snowhite93.bankingapp.model.Account;
 import com.github.snowhite93.bankingapp.model.User;
 import com.github.snowhite93.bankingapp.service.AccountService;
 import com.github.snowhite93.bankingapp.service.AccountServiceImpl;
-import com.github.snowhite93.bankingapp.service.UserService;
-import com.github.snowhite93.bankingapp.service.UserServiceImpl;
 import org.apache.log4j.Logger;
 
 import java.util.List;
@@ -21,7 +19,6 @@ public class ScreenMakeAWithdrawl implements Screen {
     private final User user;
 
     private Input input = InputScanner.getInstance();
-    private UserService userService = new UserServiceImpl();
     private AccountService accountService = new AccountServiceImpl();
 
     public ScreenMakeAWithdrawl(User user) {
