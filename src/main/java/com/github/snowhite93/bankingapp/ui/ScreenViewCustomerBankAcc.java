@@ -26,7 +26,7 @@ public class ScreenViewCustomerBankAcc implements Screen {
         List<User> getAllUsersList = userService.getAllUsersList();
 
         for (User user : getAllUsersList) {
-            log.info("User name - " + user.getUserName());
+            log.info("User name - " + user.getUserName() + " - " + user.getFirstName() + " " + user.getLastName());
         }
 
         log.info("Enter user name to show account: ");
