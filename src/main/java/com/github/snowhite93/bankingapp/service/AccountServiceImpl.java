@@ -2,6 +2,7 @@ package com.github.snowhite93.bankingapp.service;
 
 import com.github.snowhite93.bankingapp.dao.AccountDAO;
 import com.github.snowhite93.bankingapp.dao.impl.AccountDAOImpl;
+import com.github.snowhite93.bankingapp.exceptions.BankingAppException;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppSystemException;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppUserException;
 import com.github.snowhite93.bankingapp.model.Account;
@@ -44,10 +45,6 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void updateBalance(int accountId, double newBalance) throws BankingAppSystemException {
-        if (newBalance == 0) {
-            throw new BankingAppSystemException("Could not update balance, since new balance is 0");
-        }
-
         boolean updateBalance = accountDAO.updateBalance(accountId, newBalance);
         if (!updateBalance) {
             throw new BankingAppSystemException("Could not update balance");
@@ -61,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
             throw new BankingAppUserException("No such account: " + accountId);
         } else if (account.getUserId() != userId) {
             throw new BankingAppUserException("Cannot deposit into someone else's account, use transaction instead.");
-        } else if(balanceToDeposit < 0 ) {
+        } else if (balanceToDeposit < 0) {
             throw new BankingAppUserException("Cannot deposit a negative balance!");
         }
 
@@ -70,7 +67,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void withdraw(int userId, int accountId, double balanceToWithdraw) throws BankingAppSystemException {
+    public void withdraw(int userId, int accountId, double balanceToWithdraw) throws BankingAppException {
         Account account = accountDAO.findAccountByAccId(accountId);
         if (account == null) {
             throw new BankingAppUserException("No such account: " + accountId);
@@ -80,7 +77,7 @@ public class AccountServiceImpl implements AccountService {
 
         double newBalance = account.getBalance() - balanceToWithdraw;
         if (balanceToWithdraw > account.getBalance()) {
-            throw new BankingAppSystemException("Cannot withdraw more than current balance");
+            throw new BankingAppUserException("Cannot withdraw more than current balance");
         }
         updateBalance(accountId, newBalance);
     }
