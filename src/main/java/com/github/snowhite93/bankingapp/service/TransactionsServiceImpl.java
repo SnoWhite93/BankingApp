@@ -71,7 +71,7 @@ public class TransactionsServiceImpl implements TransactionsService {
             throw new BankingAppSystemException("Could not approve transaction made by user id " + userId);
         }
 
-        double newBalance = toAccount.getBalance() - transaction.getAmount();
+        double newBalance = toAccount.getBalance() + transaction.getAmount();
         boolean newBalanceUpdated = accountDAO.updateBalance(toAccount.getAccountId(), newBalance);
         if (!newBalanceUpdated) {
             throw new BankingAppSystemException("Could not update balance");

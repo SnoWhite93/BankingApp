@@ -15,5 +15,6 @@ public interface UserDAO {
     public boolean createUser(User user) throws BankingAppException;
 
     public List<User> getAllUsers() throws BankingAppSystemException;
+    public User findUserbyUserId(int userId) throws BankingAppSystemException;
 
 }

@@ -61,6 +61,8 @@ public class AccountServiceImpl implements AccountService {
             throw new BankingAppUserException("No such account: " + accountId);
         } else if (account.getUserId() != userId) {
             throw new BankingAppUserException("Cannot deposit into someone else's account, use transaction instead.");
+        } else if(balanceToDeposit < 0 ) {
+            throw new BankingAppUserException("Cannot deposit a negative balance!");
         }
 
         double newBalance = account.getBalance() + balanceToDeposit;

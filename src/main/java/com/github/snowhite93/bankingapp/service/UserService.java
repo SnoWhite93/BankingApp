@@ -12,6 +12,8 @@ public interface UserService {
 
     public User findUserByUserName(String userName) throws BankingAppException;
 
+    public User findUserByUserId(int userId) throws BankingAppException;
+
     public void createUser(User user) throws BankingAppException;
 
     public List<User> getAllUsersList() throws BankingAppSystemException;

@@ -1,12 +1,11 @@
 package com.github.snowhite93.bankingapp.ui;
 
+import com.github.snowhite93.bankingapp.dao.AccountDAO;
+import com.github.snowhite93.bankingapp.dao.impl.AccountDAOImpl;
 import com.github.snowhite93.bankingapp.model.Account;
 import com.github.snowhite93.bankingapp.model.Transactions;
 import com.github.snowhite93.bankingapp.model.User;
-import com.github.snowhite93.bankingapp.service.AccountService;
-import com.github.snowhite93.bankingapp.service.AccountServiceImpl;
-import com.github.snowhite93.bankingapp.service.TransactionsService;
-import com.github.snowhite93.bankingapp.service.TransactionsServiceImpl;
+import com.github.snowhite93.bankingapp.service.*;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
@@ -16,9 +15,11 @@ public class ScreenViewAllMyTransactions implements Screen {
 
     private static final Logger log = Logger.getLogger(ScreenViewAllMyTransactions.class);
     private final User user;
-
+    AccountDAO accountDAO = new AccountDAOImpl();
     private AccountService accountService = new AccountServiceImpl();
     private TransactionsService transactionsService = new TransactionsServiceImpl();
+    private UserService userService = new UserServiceImpl();
+
 
     public ScreenViewAllMyTransactions(User user) {
         this.user = user;
@@ -36,7 +37,19 @@ public class ScreenViewAllMyTransactions implements Screen {
 
         log.info("You have the following incoming pending transactions: ");
         for (Transactions transaction : pendingTransactions) {
-            log.info("Transaction " + transaction.getTransactionId() + " with an amount of $" + transaction.getAmount() + " status is " + transaction.getStatus());
+
+            Account fromAccount = accountDAO.findAccountByAccId(transaction.getFromAccountId());
+            Account toAccount = accountDAO.findAccountByAccId(transaction.getToAccountId());
+            int fromUserId = fromAccount.getUserId();
+            int toUserId = toAccount.getUserId();
+
+            User fromUser = userService.findUserByUserId(fromUserId);
+            User toUser = userService.findUserByUserId(toUserId);
+
+            log.info("Transaction " + transaction.getTransactionId() + " with an amount of $" + transaction.getAmount()
+                    + " with status " + transaction.getStatus()
+                    + " from " + fromUser.getFirstName() + " " + fromUser.getLastName()
+                    + " to " + toUser.getFirstName() + " " + toUser.getLastName());
         }
 
     }

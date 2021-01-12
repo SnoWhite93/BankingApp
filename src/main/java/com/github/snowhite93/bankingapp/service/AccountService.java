@@ -19,5 +19,4 @@ public interface AccountService {
 
     public void withdraw(int userId, int accountId, double balanceToWithdraw) throws BankingAppSystemException;
 
-
 }

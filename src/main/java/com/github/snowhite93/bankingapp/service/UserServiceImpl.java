@@ -38,6 +38,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserByUserId(int userId) throws BankingAppException {
+        if (userId == 0) {
+            throw new BankingAppUserException("Missing user id");
+        }
+        User user = userDAO.findUserbyUserId(userId);
+        return user;
+    }
+
+    @Override
     public void createUser(User user) throws BankingAppException {
         checkValidUser(user);
         boolean userCreated = userDAO.createUser(user);
@@ -49,7 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsersList() throws BankingAppSystemException {
         List<User> allUsersList = null;
-        allUsersList= userDAO.getAllUsers();
+        allUsersList = userDAO.getAllUsers();
         return allUsersList;
     }
 

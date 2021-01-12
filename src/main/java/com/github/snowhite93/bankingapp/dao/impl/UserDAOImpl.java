@@ -104,4 +104,21 @@ public class UserDAOImpl implements UserDAO {
         return allUsersList;
     }
 
+    @Override
+    public User findUserbyUserId(int userId) throws BankingAppSystemException {
+        User user = null;
+        try (Connection connection = PostgresSqlConnection.getConnection()) {
+            String sql = "select * from \"user\" where user_id=?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, userId);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                user = extractUser(rs);
+            }
+        } catch (SQLException e) {
+            throw new BankingAppSystemException("Failed to read user, contact support", e);
+        }
+        return user;
+    }
+
 }
