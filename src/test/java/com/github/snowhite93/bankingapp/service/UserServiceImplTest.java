@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
@@ -43,23 +44,27 @@ class UserServiceImplTest {
 
     @Test
     public void testFindUserByUserName() {
-        assertThrows(BankingAppUserException.class, () -> {
+        BankingAppUserException thrown = assertThrows(BankingAppUserException.class, () -> {
             service.findUserByUserName(null);
         });
+        assertEquals("Missing username", thrown.getMessage());
+
     }
 
     @Test
     public void testFindUWhenUNnull() {
-        assertThrows(BankingAppUserException.class, () -> {
+        BankingAppUserException thrown =   assertThrows(BankingAppUserException.class, () -> {
             service.findUserByUserNameAndPassword(null, "kk");
         });
+        assertEquals("Missing username/password", thrown.getMessage());
     }
 
     @Test
     public void testFindUserWhenPassNull() {
-        assertThrows(BankingAppUserException.class, () -> {
+        BankingAppUserException thrown = assertThrows(BankingAppUserException.class, () -> {
             service.findUserByUserNameAndPassword("vvv", null);
         });
+        assertEquals("Missing username/password", thrown.getMessage());
     }
 
     @Test
@@ -69,9 +74,11 @@ class UserServiceImplTest {
         when(userDao.createUser(user))
                 .thenThrow(new BankingAppSystemException("Database exception"));
 
-        assertThrows(BankingAppSystemException.class, () -> {
+        BankingAppSystemException thrown = assertThrows(BankingAppSystemException.class, () -> {
             service.createUser(user);
         });
+        assertEquals("Database exception", thrown.getMessage());
+
     }
 
     @Test
@@ -94,9 +101,11 @@ class UserServiceImplTest {
         when(userDao.createUser(user))
                 .thenReturn(false);
 
-        assertThrows(BankingAppSystemException.class, () -> {
+        BankingAppSystemException thrown = assertThrows(BankingAppSystemException.class, () -> {
             service.createUser(user);
         });
+
+        assertEquals("Could not create user", thrown.getMessage());
     }
 
 }
