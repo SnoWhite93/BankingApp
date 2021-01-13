@@ -17,9 +17,12 @@ public class ScreenPendingAccountRequests implements Screen {
     @Override
     public void showScreen() {
         log.info("---------------------------------------");
-        log.info("All pending requests: ");
         List<AccountRequest> pendingAccRequestsList = accountRequestService.findAllPendingAccReqs();
-
+        if (pendingAccRequestsList.size() == 0) {
+            log.info("There are no pending account requests, you will be redirected to the previous page");
+            return;
+        }
+        log.info("All pending requests: ");
         for (AccountRequest pendingAcc : pendingAccRequestsList) {
             log.info(pendingAcc.getRequestId() + " - user " + pendingAcc.getUserId() + " - starting balance " + pendingAcc.getStartingBalance());
         }
