@@ -32,6 +32,10 @@ public class ScreenMakeAMoneyTransfer implements Screen {
     public void showScreen() {
         log.info("---------------------------------------");
         List<Account> accountsForUser = accountService.retrieveAllAccountsForUserId(user.getUserId());
+        if (accountsForUser.size() == 0) {
+            log.info("There are no accounts for this user name, you have to register for a account.");
+            return;
+        }
         log.info("You have the following accounts: ");
         for (Account account : accountsForUser) {
             log.info("Account " + account.getAccountId() + " with a balance of $" + account.getBalance());
@@ -60,11 +64,6 @@ public class ScreenMakeAMoneyTransfer implements Screen {
     }
 
     private Account getFromAccount(List<Account> accountsForUser) {
-        if (accountsForUser.size() == 0) {
-            log.info("There are no accounts for this user name, you have to register for a account.");
-            return null;
-        }
-
         if (accountsForUser.size() == 1) {
             return accountsForUser.get(0);
         }
