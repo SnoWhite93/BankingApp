@@ -4,10 +4,12 @@ import com.github.snowhite93.bankingapp.dao.AccountRequestDAO;
 import com.github.snowhite93.bankingapp.dbutil.PostgresSqlConnection;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppException;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppSystemException;
-import com.github.snowhite93.bankingapp.model.Account;
 import com.github.snowhite93.bankingapp.model.AccountRequest;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 

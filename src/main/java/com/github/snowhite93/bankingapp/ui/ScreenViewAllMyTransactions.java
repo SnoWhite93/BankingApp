@@ -1,7 +1,5 @@
 package com.github.snowhite93.bankingapp.ui;
 
-import com.github.snowhite93.bankingapp.dao.AccountDAO;
-import com.github.snowhite93.bankingapp.dao.impl.AccountDAOImpl;
 import com.github.snowhite93.bankingapp.model.Account;
 import com.github.snowhite93.bankingapp.model.Transactions;
 import com.github.snowhite93.bankingapp.model.User;
@@ -15,11 +13,10 @@ public class ScreenViewAllMyTransactions implements Screen {
 
     private static final Logger log = Logger.getLogger(ScreenViewAllMyTransactions.class);
     private final User user;
-    AccountDAO accountDAO = new AccountDAOImpl();
+
     private AccountService accountService = new AccountServiceImpl();
     private TransactionsService transactionsService = new TransactionsServiceImpl();
     private UserService userService = new UserServiceImpl();
-
 
     public ScreenViewAllMyTransactions(User user) {
         this.user = user;
@@ -38,8 +35,8 @@ public class ScreenViewAllMyTransactions implements Screen {
         log.info("You have the following incoming pending transactions: ");
         for (Transactions transaction : pendingTransactions) {
 
-            Account fromAccount = accountDAO.findAccountByAccId(transaction.getFromAccountId());
-            Account toAccount = accountDAO.findAccountByAccId(transaction.getToAccountId());
+            Account fromAccount = accountService.findAccountByAccID(transaction.getFromAccountId());
+            Account toAccount = accountService.findAccountByAccID(transaction.getToAccountId());
             int fromUserId = fromAccount.getUserId();
             int toUserId = toAccount.getUserId();
 

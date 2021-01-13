@@ -5,6 +5,8 @@ import java.util.Scanner;
 public class InputScanner implements Input {
 
     private static final Input input = new InputScanner();
+
+    // we do not create a separate scanner for each screen, we use a singleton to share them
     private final Scanner scanner = new Scanner(System.in);
 
     private InputScanner() {

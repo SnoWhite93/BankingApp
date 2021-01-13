@@ -4,7 +4,6 @@ import com.github.snowhite93.bankingapp.dao.AccountDAO;
 import com.github.snowhite93.bankingapp.dao.AccountRequestDAO;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppException;
 import com.github.snowhite93.bankingapp.exceptions.BankingAppSystemException;
-import com.github.snowhite93.bankingapp.model.Account;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,10 +17,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class AccountRequestServiceImplTest {
 
-
     @Mock
     private AccountRequestDAO accountRequestDAO;
-
 
     @Mock
     private AccountDAO accountDAO;
